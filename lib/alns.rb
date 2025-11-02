@@ -5,7 +5,7 @@ require_relative "result"
 class ALNS
   def initialize(rnd=nil)
     if rnd 
-      @rnd = rnrndg
+      @rnd = rnd
     else
       @rnd = Random.new
     end
