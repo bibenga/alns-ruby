@@ -1,0 +1,11 @@
+Gem::Specification.new do |s|
+  s.name          = "alns"
+  s.version       = "0.0.0"
+  s.summary       = "Adaptive Large Neighbourhood Search"
+  s.description   = ""
+  s.authors       = ["bibenga"]
+  s.email         = "olala@github.coms"
+  s.files         = ["lib/alns.rb", "lib/alns/alns.rb"]
+  s.homepage      = "https://rubygems.org/gems/alns"
+  s.license       = "MIT"
+end
