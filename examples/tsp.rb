@@ -56,8 +56,7 @@ def run_tsp
 	best = res.best_state
 
 	puts "best solution: %.4f" % best.objective
-	puts "elapsed: %s" % elapsed
-	puts "iterations: %s" % iterations
+	puts "base stats: elapsed=%.1fs; iterations=%d" % [elapsed, iterations]
 
 	# neato -Tpng tmp/tsp.dot -o tmp/tsp.png
 	write_dot_file("tmp/tsp.dot", COORDS, best.edges)
