@@ -47,11 +47,13 @@ def run_tsp
 	stop = MaxIterations.new(1000)
 
 	res = alns.iterate(init_sol, select, accept, stop)
+	# pp res
 	best = res.best_state
 
 	puts "best solution: %.4f" % best.objective
 
-	# pp res
+	# neato -Tpng tmp/tsp.dot -o tmp/tsp.png
+	write_dot_file("tmp/tsp.dot", COORDS, best.edges)
 end
 
 COORDS = [
@@ -336,4 +338,50 @@ def worst_removal(state, rnd)
 	end
 
 	return destroyed
+end
+
+def write_dot_file(filename, nodes, edges)
+  # scale up
+  k = 1
+  nodes = nodes.map { |x, y| [x * k, y * k] }
+
+  # search min and max
+  min_x = nodes[0][0]
+  min_y = nodes[0][1]
+  max_x = min_x
+  max_y = min_y
+
+  nodes.each do |x, y|
+    min_x = x if x < min_x
+    min_y = y if y < min_y
+    max_x = x if x > max_x
+    max_y = y if y > max_y
+  end
+
+  width = max_x - min_x
+  raise "zero width" if width == 0
+  height = max_y - min_y
+  raise "zero height" if height == 0
+
+  # create and write dot file
+  File.open(filename, "w") do |f|
+    f.puts "digraph G {"
+    f.puts "  graph [size=\"#{width},#{height}!\", dpi=20.0];"
+
+    fontsize = 48
+    node_size = 2
+    nodes.each_with_index do |(x, y), i|
+      adj_x = x - min_x
+      adj_y = y - min_y
+      f.puts "  #{i} [label=\"#{i}\", fontsize=#{fontsize}, pos=\"#{adj_x},#{adj_y}!\", shape=circle, width=#{node_size}, height=#{node_size}, fixedsize=true];"
+    end
+
+    arrowsize = 4
+    penwidth = 3
+    edges.each do |from, to|
+      f.puts "  #{from} -> #{to} [arrowsize=#{arrowsize}, penwidth=#{penwidth}];"
+    end
+
+    f.puts "}"
+  end
 end
