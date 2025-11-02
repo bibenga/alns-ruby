@@ -1,6 +1,9 @@
 require 'set'
 require_relative "../lib/alns"
 require_relative "../lib/state"
+require_relative "../lib/accept"
+require_relative "../lib/select"
+require_relative "../lib/stop"
 
 def run_tsp
   dists = make_dists(COORDS)
@@ -18,7 +21,23 @@ def run_tsp
 	puts "optimal solution: 564"
 	puts "initial solution: %.4f" % init_sol.objective
 
-  raise "unimplemented"
+	alns.listener = -> (outcome, cand) do
+		# puts "%-6s %.4f" % [Outcome.to_s(outcome), cand.objective]
+	end
+
+	alns.add_destroy_operator(-> (state, rnd) { random_removal(state, rnd) })
+	alns.add_repair_operator(-> (state, rnd) { greedy_repair(state, rnd) })
+
+	select = RouletteWheel.new [3, 2, 1, 0.5], 0.8, alns.destroy_operators.length, alns.repair_operators.length
+	accept = HillClimbing.new
+	stop = MaxIterations.new 100
+
+	res = alns.iterate(init_sol, select, accept, stop)
+	best = res.best_state
+
+	puts "best solution: %.4f" % best.objective
+
+	# pp res
 end
 
 COORDS = [
@@ -202,7 +221,7 @@ def greedy_repair(state, rnd)
 	nodes = state.nodes.shuffle
 
 	while state.edges.length != state.nodes.length
-		node = nodes.find(-> {0}) do |other|
+		node = nodes.find(-> {-1}) do |other|
 			!state.edges.key?(other)
 		end
 		# p node
@@ -244,4 +263,31 @@ def would_form_subcycle(from_node, to_node, state)
 		end
 	end
 	return false
+end
+
+DEGREE_OF_DESTRUCTION = 0.1
+
+def edges_to_remove(state)
+	(state.edges.length * DEGREE_OF_DESTRUCTION).to_i
+end
+
+def random_removal(state, rnd)
+	# puts "random_removal"
+	destroyed = state.clone
+	# pp destroyed.edges
+
+	to_remove = edges_to_remove(destroyed)
+	# p to_remove
+
+	removed = 0
+	while removed < to_remove
+		node = destroyed.nodes.sample
+		# puts "#{node}; removed=#{removed}; to_remove=#{to_remove}; ?=#{destroyed.edges.key?(node)}"
+		if destroyed.edges.key?(node)
+			removed += 1
+			destroyed.edges.delete(node)
+		end
+	end
+
+	return destroyed
 end
