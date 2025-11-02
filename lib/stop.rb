@@ -5,6 +5,8 @@ class Stop
 end
 
 class MaxIterations < Stop
+  attr_reader :max_iterations, :current_iteration
+  
   def initialize(max_iterations)
     @max_iterations = max_iterations
     @current_iteration = 0
