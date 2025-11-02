@@ -4,6 +4,7 @@ require_relative "../lib/state"
 require_relative "../lib/select"
 require_relative "../lib/accept"
 require_relative "../lib/stop"
+require_relative "../lib/outcome"
 
 class ALNSTest < Minitest::Test
 
@@ -26,15 +27,16 @@ class ALNSTest < Minitest::Test
   def test_iterate
     alns = ALNS.new
     
-    initial_solution = DummyState.new(100)
+    initial_solution = DummyState.new(1)
     select = RouletteWheel.new [3, 2, 1, 0.5], 0.8, 1, 1
     accept = HillClimbing.new
     stop = MaxIterations.new 9
 
     alns.add_destroy_operator(->(state, rnd) { state.dup })
-    alns.add_repair_operator(->(state, rnd) { DummyState.new(rnd.rand(100)) })
+    alns.add_repair_operator(->(state, rnd) { DummyState.new(rnd.rand) })
     alns.listener = -> (outcome, cand) do
-      puts "#{outcome}, #{cand.objective}"
+      # puts "#{Outcome.to_s(outcome)}, #{cand.objective.round(4)}"
+      puts "%-6s %.4f" % [Outcome.to_s(outcome), cand.objective]
     end
 
     result = alns.iterate initial_solution, select, accept, stop

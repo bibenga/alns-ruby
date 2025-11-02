@@ -18,14 +18,8 @@ class Select
           raise ArgumentError, "the number of columns in a row #{i} does not match the expected #{cols}"
         end
 
-        coupled = false
-        row.each do |b|
-          if b 
-            coupled = true
-            break
-          end      
-        end
-        if coupled 
+        coupled = row.any? { |b| b }
+        if !coupled 
           raise ArgumentError, "destroy operator #{i} has no coupled repair operators"
         end
       end
@@ -62,8 +56,8 @@ class RouletteWheel < Select
 
       coupled_r_idcs = []
       coupled_r_weights = []
-      @op_coupling.my_array.each_with_index do |v, i|
-        if v
+      @op_coupling.my_array.each_with_index do |coupled, i|
+        if coupled
           coupled_r_idcs << i
           coupled_r_weights << @r_weights[i]
         end
