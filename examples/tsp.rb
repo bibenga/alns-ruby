@@ -333,8 +333,7 @@ end
 def worst_removal(state, rnd) 
 	destroyed = state.clone
 
-	worst_edges = destroyed.nodes.clone
-	worst_edges = worst_edges.sort do |a, b|
+	worst_edges = destroyed.nodes.sort do |a, b|
   	destroyed.dists[a][destroyed.edges[a]] <=> destroyed.dists[b][destroyed.edges[b]]
 	end
 
