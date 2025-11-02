@@ -28,13 +28,17 @@ def run_tsp
 	alns.add_destroy_operator do |state, rnd| 
 		random_removal(state, rnd)
 	end 
+
 	alns.add_repair_operator do |state, rnd| 
 		greedy_repair(state, rnd)
 	end
 
-	select = RouletteWheel.new [3, 2, 1, 0.5], 0.8, alns.destroy_operators.length, alns.repair_operators.length
+	num_destroy = alns.destroy_operators.length
+	num_repair = alns.repair_operators.length
+
+	select = RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
 	accept = HillClimbing.new
-	stop = MaxIterations.new 100
+	stop = MaxIterations.new(100)
 
 	res = alns.iterate(init_sol, select, accept, stop)
 	best = res.best_state
