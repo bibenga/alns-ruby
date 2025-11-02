@@ -31,17 +31,15 @@ class ALNSTest < Minitest::Test
     accept = HillClimbing.new
     stop = MaxIterations.new 9
 
-    alns.add_destroy_operator(
-      ->(state, rnd) { state.dup }
-    )
-    alns.add_repair_operator(
-      ->(state, rnd) { DummyState.new(rnd.rand(100)) }
-    )
+    alns.add_destroy_operator(->(state, rnd) { state.dup })
+    alns.add_repair_operator(->(state, rnd) { DummyState.new(rnd.rand(100)) })
     alns.listener = lambda do |outcome, cand|
       puts "#{outcome}, #{cand.objective}"
     end
 
     result = alns.iterate initial_solution, select, accept, stop
+
+    pp result
   end
 end
 
