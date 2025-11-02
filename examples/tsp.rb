@@ -391,4 +391,6 @@ def write_dot_file(filename, nodes, edges)
   end
 end
 
-# run_tsp
+if __FILE__ == $0
+	run_tsp
+end
