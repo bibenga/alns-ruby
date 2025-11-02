@@ -5,6 +5,31 @@ class Select
     if num_destroy <= 0 || num_repair <= 0
         raise ArgumentError, "Missing destroy or repair operators."
     end
+    if op_coupling
+      rows = op_coupling.length
+      cols = op_coupling[0].length
+
+      if rows != num_destroy || cols != num_repair
+        raise ArgumentError, "coupling matrix of shape (#{rows}, #{cols}), expected (#{num_destroy}, #{num_repair})"
+      end
+
+      op_coupling.each_with_index do |row, i|
+        if row.length != cols
+          raise ArgumentError, "the number of columns in a row #{i} does not match the expected #{cols}"
+        end
+
+        coupled = false
+        row.each do |b|
+          if b 
+            coupled = true
+            break
+          end      
+        end
+        if coupled 
+          raise ArgumentError, "destroy operator #{i} has no coupled repair operators"
+        end
+      end
+    end
 
     @num_destroy = num_destroy
     @num_repair = num_repair
@@ -33,7 +58,20 @@ class RouletteWheel < Select
 
   def select(rnd, best, current) 
     if @op_coupling
-      raise "unimplemented"
+      d_idx = weighted_random_index(rnd, @d_weights)
+
+      coupled_r_idcs = []
+      coupled_r_weights = []
+      @op_coupling.my_array.each_with_index do |v, i|
+        if v
+          coupled_r_idcs << i
+          coupled_r_weights << @r_weights[i]
+        end
+      end
+
+      r_idx = coupled_r_idcs[weightedRandomIndex(rnd, coupled_r_weights)]
+
+      return d_idx, r_idx
     else
       d_idx = weighted_random_index(rnd, @d_weights)
 		  r_idx = weighted_random_index(rnd, @r_weights)
