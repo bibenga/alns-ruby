@@ -12,15 +12,15 @@ class ALNS
     @repair_operators = []
   end
 
-  def listener=(op)
+  def listener=(&op)
     @listener = op
   end
 
-  def add_destroy_operator(op)
+  def add_destroy_operator(&op)
     @destroy_operators << op
   end
 
-  def add_repair_operator(op)
+  def add_repair_operator(&op)
     @repair_operators << op
   end
 

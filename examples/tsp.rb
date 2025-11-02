@@ -21,12 +21,16 @@ def run_tsp
 	puts "optimal solution: 564"
 	puts "initial solution: %.4f" % init_sol.objective
 
-	alns.listener = -> (outcome, cand) do
+	alns.listener do |outcome, cand| 
 		# puts "%-6s %.4f" % [Outcome.to_s(outcome), cand.objective]
 	end
 
-	alns.add_destroy_operator(-> (state, rnd) { random_removal(state, rnd) })
-	alns.add_repair_operator(-> (state, rnd) { greedy_repair(state, rnd) })
+	alns.add_destroy_operator do |state, rnd| 
+		random_removal(state, rnd)
+	end 
+	alns.add_repair_operator do |state, rnd| 
+		greedy_repair(state, rnd)
+	end
 
 	select = RouletteWheel.new [3, 2, 1, 0.5], 0.8, alns.destroy_operators.length, alns.repair_operators.length
 	accept = HillClimbing.new
