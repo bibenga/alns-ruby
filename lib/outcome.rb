@@ -4,7 +4,7 @@ module Outcome
 	ACCEPT = 2
 	REJECT = 3
 
-	def self.to_s(value)
+  def self.to_s(value)
     case value
     when BEST   then "BEST"
     when BETTER then "BETTER"
