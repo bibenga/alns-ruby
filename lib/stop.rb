@@ -15,3 +15,19 @@ class MaxIterations < Stop
   	return @current_iteration > @max_iterations
   end
 end
+
+class MaxRuntime < Stop  
+  def initialize(max_runtime)
+    @max_runtime = max_runtime
+    @started = nil
+  end
+
+  def done?(rnd, best, current)
+    if @started.nil?
+      @started = Time.new
+      return false
+    end
+    elapsed = Time.now - @started
+    return elapsed > @max_runtime
+  end
+end

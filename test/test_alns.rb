@@ -39,7 +39,7 @@ class ALNSTest < Minitest::Test
     alns.add_repair_operator do |state, rnd| 
       DummyState.new(rnd.rand)
     end
-    alns.listener do |outcome, cand| 
+    alns.on_outcome do |outcome, cand| 
       # puts "#{Outcome.to_s(outcome)}, #{cand.objective.round(4)}"
       puts "%-6s %.4f" % [Outcome.to_s(outcome), cand.objective]
     end

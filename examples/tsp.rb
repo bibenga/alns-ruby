@@ -21,8 +21,10 @@ def run_tsp
 	puts "optimal solution: 564"
 	puts "initial solution: %.4f" % init_sol.objective
 
-	alns.listener do |outcome, cand| 
-		# puts "%-6s %.4f" % [Outcome.to_s(outcome), cand.objective]
+	iterations = 0
+	alns.on_outcome do |outcome, cand| 
+		iterations += 1
+		# puts "%5d: %-6s %.4f" % [iterations, Outcome.to_s(outcome), cand.objective]
 	end
 
 	alns.add_destroy_operator do |state, rnd| 
@@ -44,13 +46,18 @@ def run_tsp
 
 	select = RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
 	accept = HillClimbing.new
-	stop = MaxIterations.new(1000)
+	# stop = MaxIterations.new(1000)
+	stop = MaxRuntime.new(2)
 
+	started = Time.new
 	res = alns.iterate(init_sol, select, accept, stop)
+	elapsed = Time.now - started
 	# pp res
 	best = res.best_state
 
 	puts "best solution: %.4f" % best.objective
+	puts "elapsed: %s" % elapsed
+	puts "iterations: %s" % iterations
 
 	# neato -Tpng tmp/tsp.dot -o tmp/tsp.png
 	write_dot_file("tmp/tsp.dot", COORDS, best.edges)

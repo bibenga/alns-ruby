@@ -3,17 +3,17 @@ require_relative "statistics"
 require_relative "result"
 
 class ALNS
-  attr_reader :rnd, :listener, :destroy_operators, :repair_operators
+  attr_reader :rnd, :destroy_operators, :repair_operators
 
   def initialize(rnd=nil)
     @rnd = rnd ? rnd : Random.new
-    @listener = nil
+    @on_outcome = nil
     @destroy_operators = []
     @repair_operators = []
   end
 
-  def listener=(&op)
-    @listener = op
+  def on_outcome(&op)
+    @on_outcome = op
   end
 
   def add_destroy_operator(&op)
@@ -61,7 +61,7 @@ class ALNS
   def eval_cand(accept, best, curr, cand)
   	outcome = determine_outcome(accept, best, curr, cand)
 
-    @listener&.call(outcome, cand)
+    @on_outcome&.call(outcome, cand)
 
     case outcome
     when Outcome::BEST
