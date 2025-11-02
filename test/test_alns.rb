@@ -33,7 +33,7 @@ class ALNSTest < Minitest::Test
 
     alns.add_destroy_operator(->(state, rnd) { state.dup })
     alns.add_repair_operator(->(state, rnd) { DummyState.new(rnd.rand(100)) })
-    alns.listener = lambda do |outcome, cand|
+    alns.listener = -> (outcome, cand) do
       puts "#{outcome}, #{cand.objective}"
     end
 
