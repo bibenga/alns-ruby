@@ -28,6 +28,12 @@ def run_tsp
 	alns.add_destroy_operator do |state, rnd| 
 		random_removal(state, rnd)
 	end 
+	alns.add_destroy_operator do |state, rnd| 
+		path_removal(state, rnd)
+	end 
+	alns.add_destroy_operator do |state, rnd| 
+		worst_removal(state, rnd)
+	end 
 
 	alns.add_repair_operator do |state, rnd| 
 		greedy_repair(state, rnd)
@@ -38,7 +44,7 @@ def run_tsp
 
 	select = RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
 	accept = HillClimbing.new
-	stop = MaxIterations.new(100)
+	stop = MaxIterations.new(1000)
 
 	res = alns.iterate(init_sol, select, accept, stop)
 	best = res.best_state
@@ -295,6 +301,38 @@ def random_removal(state, rnd)
 			removed += 1
 			destroyed.edges.delete(node)
 		end
+	end
+
+	return destroyed
+end
+
+
+def path_removal(state, rnd) 
+	destroyed = state.clone
+
+	node = destroyed.nodes.sample
+
+	to_remove = edges_to_remove(destroyed)
+	(0...to_remove).each do |idx|
+		nextNode = destroyed.edges[node]
+		destroyed.edges.delete(node)
+		node = nextNode
+	end
+
+	return destroyed
+end
+
+def worst_removal(state, rnd) 
+	destroyed = state.clone
+
+	worst_edges = destroyed.nodes.clone
+	worst_edges = worst_edges.sort do |a, b|
+  	destroyed.dists[a][destroyed.edges[a]] <=> destroyed.dists[b][destroyed.edges[b]]
+	end
+
+	to_remove = edges_to_remove(destroyed)
+	(0...to_remove).each do |idx|
+		destroyed.edges.delete(worst_edges[worst_edges.length-(idx+1)])
 	end
 
 	return destroyed
