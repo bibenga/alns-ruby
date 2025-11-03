@@ -63,14 +63,14 @@ module ALNS
 
         coupled_r_idcs = []
         coupled_r_weights = []
-        @op_coupling.my_array.each_with_index do |coupled, i|
+        @op_coupling[d_idx].each_with_index do |coupled, i|
           if coupled
             coupled_r_idcs << i
             coupled_r_weights << @r_weights[i]
           end
         end
 
-        r_idx = coupled_r_idcs[ALNS.weightedRandomIndex(rnd, coupled_r_weights)]
+        r_idx = coupled_r_idcs[ALNS.weighted_random_index(rnd, coupled_r_weights)]
 
         [d_idx, r_idx]
       else
