@@ -1,6 +1,6 @@
 class Stop
   def done?(rnd, best, current)
-    raise "unimplemented"
+    raise NotImplementedError
   end
 end
 

@@ -1,5 +1,5 @@
 class State
   def objective
-    raise "unimplemented"
+    raise NotImplementedError
   end
 end

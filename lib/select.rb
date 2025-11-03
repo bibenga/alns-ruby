@@ -31,11 +31,11 @@ class Select
   end
 
   def select(rnd, best, current) 
-    raise "unimplemented"
+    raise NotImplementedError
   end
 
   def update(candidate, d_idx, r_idx, outcome)
-    raise "unimplemented"
+    raise NotImplementedError
   end
 end
 

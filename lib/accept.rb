@@ -1,6 +1,6 @@
 class Accept
   def accept?(rnd, best, current, candidate)
-    raise "unimplemented"
+    raise NotImplementedError
   end
 end
 
