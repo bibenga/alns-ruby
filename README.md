@@ -10,7 +10,7 @@ The original implementation can be found here: [N-Wouda/ALNS](https://github.com
 
 ## Install:
 ```shell
-gem install minitest
+gem install alns
 ```
 
 ## Exmaple
