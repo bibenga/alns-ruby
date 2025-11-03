@@ -10,7 +10,7 @@ class MaxIterations < Stop
     @current_iteration = 0
   end
 
-  def done?(rnd, best, current)
+  def done?(_rnd, _best, _current)
     @current_iteration += 1
     @current_iteration > @max_iterations
   end
@@ -22,7 +22,7 @@ class MaxRuntime < Stop
     @started = nil
   end
 
-  def done?(rnd, best, current)
+  def done?(_rnd, _best, _current)
     if @started.nil?
       @started = Time.new
       return false

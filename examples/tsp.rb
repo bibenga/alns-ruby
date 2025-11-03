@@ -9,7 +9,7 @@ def run_tsp
   dists = make_dists(COORDS)
 
   nodes = Array.new(COORDS.length)
-  COORDS.each_with_index do |coord, i|
+  COORDS.each_with_index do |_coord, i|
     nodes[i] = i
   end
 
@@ -22,7 +22,7 @@ def run_tsp
   puts 'initial solution: %.4f' % init_sol.objective
 
   iterations = 0
-  alns.on_outcome do |outcome, cand|
+  alns.on_outcome do |_outcome, _cand|
     iterations += 1
     # puts "%5d: %-6s %.4f" % [iterations, Outcome.to_s(outcome), cand.objective]
   end
@@ -240,7 +240,7 @@ end
 def greedy_repair(state, rnd)
   visited = state.edges.values
 
-  nodes = state.nodes.shuffle
+  nodes = state.nodes.shuffle(random: rnd)
 
   while state.edges.length != state.nodes.length
     node = nodes.find(-> { -1 }) do |other|
@@ -296,7 +296,7 @@ def random_removal(state, rnd)
 
   removed = 0
   while removed < to_remove
-    node = destroyed.nodes.sample
+    node = destroyed.nodes.sample(random: rnd)
     # puts "#{node}; removed=#{removed}; to_remove=#{to_remove}; ?=#{destroyed.edges.key?(node)}"
     if destroyed.edges.key?(node)
       removed += 1
@@ -310,19 +310,19 @@ end
 def path_removal(state, rnd)
   destroyed = state.clone
 
-  node = destroyed.nodes.sample
+  node = destroyed.nodes.sample(random: rnd)
 
   to_remove = edges_to_remove(destroyed)
-  (0...to_remove).each do |idx|
-    nextNode = destroyed.edges[node]
+  (0...to_remove).each do |_|
+    next_node = destroyed.edges[node]
     destroyed.edges.delete(node)
-    node = nextNode
+    node = next_node
   end
 
   destroyed
 end
 
-def worst_removal(state, rnd)
+def worst_removal(state, _rnd)
   destroyed = state.clone
 
   worst_edges = destroyed.nodes.sort do |a, b|

@@ -25,9 +25,7 @@ class ALNS
   end
 
   def iterate(initial_solution, select, accept, stop)
-    if @destroy_operators.length == 0 || @repair_operators.length == 0
-      raise ArgumentError, 'Missing destroy or repair operators.'
-    end
+    raise ArgumentError, 'Missing destroy or repair operators.' if @destroy_operators.empty? || @repair_operators.empty?
 
     curr = initial_solution
     best = initial_solution
