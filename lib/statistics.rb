@@ -2,6 +2,8 @@
 
 module ALNS
   class Statistics
+    attr_reader :runtimes, :objectives, :destroy_operator_counts, :repair_operator_counts
+
     def initialize(num_destroy, num_repair)
       @runtimes = []
       @objectives = []

@@ -38,10 +38,12 @@ def run_tsp
   alns.add_destroy_operator do |state, rnd|
     worst_removal(state, rnd)
   end
+  destroy_operator_names = { 0 => :random_removal, 1 => :path_removal, 2 => :worst_removal }
 
   alns.add_repair_operator do |state, rnd|
     greedy_repair(state, rnd)
   end
+  repair_operator_names = { 0 => :greedy_repair }
 
   num_destroy = alns.destroy_operators.length
   num_repair = alns.repair_operators.length
@@ -58,7 +60,18 @@ def run_tsp
   best = res.best_state
 
   puts format('best solution: %.4f', best.objective)
-  puts format('base stats: elapsed=%.1fs; iterations=%d', elapsed, iterations)
+
+  puts format('statistics: elapsed=%.1fs; iterations=%d', elapsed, iterations)
+  puts('  destroy operators')
+  destroy_operator_names.each do |idx, name|
+    counts = res.statistics.destroy_operator_counts[idx]
+    puts format('    %d: %14s; %s', idx, name, counts)
+  end
+  puts('  repair operators')
+  repair_operator_names.each do |idx, name|
+    counts = res.statistics.repair_operator_counts[idx]
+    puts format('    %d: %14s; %s', idx, name, counts)
+  end
 
   # neato -Tpng tmp/tsp.dot -o tmp/tsp.png
   write_dot_file('tmp/tsp.dot', COORDS, best.edges)

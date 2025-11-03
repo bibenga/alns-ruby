@@ -3,7 +3,7 @@
 module ALNS
   EPSILON = 1e-9
 
-  def self.is_close(a, b, epsilon = EPSILON) # rubocop:disable Naming/MethodParameterName
+  def self.float_close?(a, b, epsilon = EPSILON) # rubocop:disable Naming/MethodParameterName
     (a - b).abs <= epsilon
   end
 
@@ -17,7 +17,7 @@ module ALNS
     weights.each_with_index do |weight, index|
       adjusted_value -= weight
 
-      return index if adjusted_value <= 0 || is_close(adjusted_value, 0)
+      return index if adjusted_value <= 0 || float_close?(adjusted_value, 0)
     end
 
     raise "Arithmetic error: sum=#{total_sum}, adjusted_value=#{adjusted_value}, weights=#{weights.inspect}"
