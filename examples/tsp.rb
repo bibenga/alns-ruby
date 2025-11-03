@@ -65,16 +65,24 @@ def run_tsp
   puts('  destroy operators')
   destroy_operator_names.each do |idx, name|
     counts = res.statistics.destroy_operator_counts[idx]
-    puts format('    %d: %14s; %s', idx, name, counts)
+    puts format('    %d: %14s; %s', idx, name, operator_stats_to_s(counts))
   end
   puts('  repair operators')
   repair_operator_names.each do |idx, name|
     counts = res.statistics.repair_operator_counts[idx]
-    puts format('    %d: %14s; %s', idx, name, counts)
+    puts format('    %d: %14s; %s', idx, name, operator_stats_to_s(counts))
   end
 
   # neato -Tpng tmp/tsp.dot -o tmp/tsp.png
   write_dot_file('tmp/tsp.dot', COORDS, best.edges)
+end
+
+def operator_stats_to_s(counter)
+  format('%s: %3d, %s: %3d, %s: %3d, %s: %4d',
+         ALNS::Outcome.to_s(ALNS::Outcome::BEST), counter[ALNS::Outcome::BEST],
+         ALNS::Outcome.to_s(ALNS::Outcome::BETTER), counter[ALNS::Outcome::BETTER],
+         ALNS::Outcome.to_s(ALNS::Outcome::ACCEPT), counter[ALNS::Outcome::ACCEPT],
+         ALNS::Outcome.to_s(ALNS::Outcome::REJECT), counter[ALNS::Outcome::REJECT])
 end
 
 COORDS = [
