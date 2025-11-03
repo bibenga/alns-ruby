@@ -3,7 +3,7 @@
 module ALNS
   EPSILON = 1e-9
 
-  def self.is_close(a, b, epsilon = EPSILON)
+  def self.is_close(a, b, epsilon = EPSILON) # rubocop:disable Naming/MethodParameterName
     (a - b).abs <= epsilon
   end
 
