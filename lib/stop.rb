@@ -9,7 +9,7 @@ module ALNS
 
   class MaxIterations < Stop
     def initialize(max_iterations)
-      super
+      super()
       @max_iterations = max_iterations
       @current_iteration = 0
     end
@@ -22,7 +22,7 @@ module ALNS
 
   class MaxRuntime < Stop
     def initialize(max_runtime)
-      super
+      super()
       @max_runtime = max_runtime
       @started = nil
     end

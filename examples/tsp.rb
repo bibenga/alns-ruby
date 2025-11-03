@@ -219,7 +219,7 @@ class TspState < ALNS::State
   attr_accessor :nodes, :edges, :dists
 
   def initialize(nodes, edges, dists)
-    super
+    super()
     @nodes = nodes
     @edges = edges
     @dists = dists
