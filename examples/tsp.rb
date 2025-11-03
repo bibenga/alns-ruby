@@ -19,7 +19,7 @@ def run_tsp
   init_sol = greedy_repair(init_sol, alns.rnd)
 
   puts 'optimal solution: 564'
-  puts 'initial solution: %.4f' % init_sol.objective
+  puts format('initial solution: %.4f', init_sol.objective)
 
   iterations = 0
   alns.on_outcome do |_outcome, _cand|
@@ -55,7 +55,7 @@ def run_tsp
   # pp res
   best = res.best_state
 
-  puts 'best solution: %.4f' % best.objective
+  puts format('best solution: %.4f', best.objective)
   puts format('base stats: elapsed=%.1fs; iterations=%d', elapsed, iterations)
 
   # neato -Tpng tmp/tsp.dot -o tmp/tsp.png
@@ -229,11 +229,11 @@ class TspState < State
   end
 
   def objective
-    v = 0.0
+    total_dist = 0.0
     @edges.each do |from, to|
-      v += @dists[from][to]
+      total_dist += @dists[from][to]
     end
-    v
+    total_dist
   end
 end
 
