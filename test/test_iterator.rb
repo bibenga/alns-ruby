@@ -9,6 +9,11 @@ require_relative '../lib/stop'
 require_relative '../lib/outcome'
 
 class IteratorTest < Minitest::Test
+  def setup
+    @rnd = Random.new(123)
+    @alns = ALNS::Iterator.new(@rnd)
+  end
+
   def test_iterate_wo_operators
     exception = assert_raises(ArgumentError) do
       @alns.iterate nil, nil, nil, nil
