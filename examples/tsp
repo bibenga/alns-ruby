@@ -1,5 +1,5 @@
 #!/usr/bin/env -S ruby --jit
 
-require_relative "tsp"
+require_relative 'tsp'
 
 run_tsp

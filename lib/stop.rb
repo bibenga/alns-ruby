@@ -4,7 +4,7 @@ class Stop
   end
 end
 
-class MaxIterations < Stop  
+class MaxIterations < Stop
   def initialize(max_iterations)
     @max_iterations = max_iterations
     @current_iteration = 0
@@ -12,11 +12,11 @@ class MaxIterations < Stop
 
   def done?(rnd, best, current)
     @current_iteration += 1
-  	return @current_iteration > @max_iterations
+    @current_iteration > @max_iterations
   end
 end
 
-class MaxRuntime < Stop  
+class MaxRuntime < Stop
   def initialize(max_runtime)
     @max_runtime = max_runtime
     @started = nil
@@ -28,6 +28,6 @@ class MaxRuntime < Stop
       return false
     end
     elapsed = Time.now - @started
-    return elapsed > @max_runtime
+    elapsed > @max_runtime
   end
 end

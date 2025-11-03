@@ -16,5 +16,4 @@ class Statistics
     @destroy_operator_counts[didx][outcome] += 1
     @repair_operator_counts[ridx][outcome] += 1
   end
-
 end

@@ -1,8 +1,6 @@
-require "minitest/autorun"
-
+require 'minitest/autorun'
 
 class ArrayTest < Minitest::Test
-
   def test_arr
     destroy_operator_counts = Array.new(3) { [0, 0, 0, 0] }
 
@@ -10,5 +8,4 @@ class ArrayTest < Minitest::Test
 
     puts destroy_operator_counts
   end
-
 end

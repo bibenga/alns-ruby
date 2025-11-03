@@ -8,7 +8,5 @@ class Result
     @best
   end
 
-  def statistics
-    @statistics
-  end
+  attr_reader :statistics
 end

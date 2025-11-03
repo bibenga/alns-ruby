@@ -1,10 +1,9 @@
-require_relative "math"
+require_relative 'math'
 
 class Select
   def initialize(num_destroy, num_repair, op_coupling = nil)
-    if num_destroy <= 0 || num_repair <= 0
-        raise ArgumentError, "Missing destroy or repair operators."
-    end
+    raise ArgumentError, 'Missing destroy or repair operators.' if num_destroy <= 0 || num_repair <= 0
+
     if op_coupling
       rows = op_coupling.length
       cols = op_coupling[0].length
@@ -19,9 +18,7 @@ class Select
         end
 
         coupled = row.any? { |b| b }
-        if !coupled 
-          raise ArgumentError, "destroy operator #{i} has no coupled repair operators"
-        end
+        raise ArgumentError, "destroy operator #{i} has no coupled repair operators" unless coupled
       end
     end
 
@@ -30,7 +27,7 @@ class Select
     @op_coupling = op_coupling
   end
 
-  def select(rnd, best, current) 
+  def select(rnd, best, current)
     raise NotImplementedError
   end
 
@@ -50,7 +47,7 @@ class RouletteWheel < Select
     @r_weights = Array.new(num_repair, 1)
   end
 
-  def select(rnd, best, current) 
+  def select(rnd, best, current)
     if @op_coupling
       d_idx = weighted_random_index(rnd, @d_weights)
 
@@ -65,11 +62,11 @@ class RouletteWheel < Select
 
       r_idx = coupled_r_idcs[weightedRandomIndex(rnd, coupled_r_weights)]
 
-      return d_idx, r_idx
+      [d_idx, r_idx]
     else
       d_idx = weighted_random_index(rnd, @d_weights)
-		  r_idx = weighted_random_index(rnd, @r_weights)
-		  return d_idx, r_idx
+      r_idx = weighted_random_index(rnd, @r_weights)
+      [d_idx, r_idx]
     end
   end
 
