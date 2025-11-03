@@ -10,7 +10,7 @@ require_relative '../lib/outcome'
 
 class ALNSTest < Minitest::Test
   def test_alns_dummy
-    alns = ALNS::Iterator.new
+    alns = ALNS::Iterator.new(Random.new(123))
     refute_nil alns, 'ALNS object was not created successfully (it is nil)'
   end
 
@@ -26,7 +26,7 @@ class ALNSTest < Minitest::Test
   end
 
   def test_iterate
-    alns = ALNS::Iterator.new
+    alns = ALNS::Iterator.new(Random.new(123))
 
     initial_solution = DummyState.new(1)
     select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 1, 1)
@@ -40,13 +40,12 @@ class ALNSTest < Minitest::Test
       DummyState.new(rnd.rand)
     end
     alns.on_outcome do |outcome, cand|
-      # puts "#{Outcome.to_s(outcome)}, #{cand.objective.round(4)}"
-      puts format('%-6s %.4f', ALNS::Outcome.to_s(outcome), cand.objective)
+      # puts format('%-6s %.4f', ALNS::Outcome.to_s(outcome), cand.objective)
     end
 
     result = alns.iterate initial_solution, select, accept, stop
 
-    pp result
+    # pp result
   end
 end
 
