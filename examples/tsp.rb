@@ -14,7 +14,7 @@ def run_tsp
     nodes[i] = i
   end
 
-  alns = ALNS.new(Random.new(1234))
+  alns = ALNS::Iterator.new(Random.new(1234))
 
   init_sol = TspState.new(nodes, {}, dists)
   init_sol = greedy_repair(init_sol, alns.rnd)
@@ -45,10 +45,10 @@ def run_tsp
   num_destroy = alns.destroy_operators.length
   num_repair = alns.repair_operators.length
 
-  select = RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
-  accept = HillClimbing.new
-  # stop = MaxIterations.new(1000)
-  stop = MaxRuntime.new(2)
+  select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
+  accept = ALNS::HillClimbing.new
+  # stop = ALNS::MaxIterations.new(1000)
+  stop = ALNS::MaxRuntime.new(2)
 
   started = Time.new
   res = alns.iterate(init_sol, select, accept, stop)
@@ -213,7 +213,7 @@ def euclidean(x1, y1, x2, y2)
   Math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 end
 
-class TspState < State
+class TspState < ALNS::State
   attr_accessor :nodes, :edges, :dists
 
   def initialize(nodes, edges, dists)

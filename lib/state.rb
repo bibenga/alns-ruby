@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-class State
-  def objective
-    raise NotImplementedError
+module ALNS
+  class State
+    def objective
+      raise NotImplementedError
+    end
   end
 end

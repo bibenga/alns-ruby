@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
-class Accept
-  def accept?(rnd, best, current, candidate)
-    raise NotImplementedError
+module ALNS
+  class Accept
+    def accept?(rnd, best, current, candidate)
+      raise NotImplementedError
+    end
   end
-end
 
-class HillClimbing < Accept
-  def accept?(_rnd, _best, current, candidate)
-    candidate.objective <= current.objective
+  class HillClimbing < Accept
+    def accept?(_rnd, _best, current, candidate)
+      candidate.objective <= current.objective
+    end
   end
 end

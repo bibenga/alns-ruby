@@ -10,12 +10,12 @@ require_relative '../lib/outcome'
 
 class ALNSTest < Minitest::Test
   def test_alns_dummy
-    alns = ALNS.new
+    alns = ALNS::Iterator.new
     refute_nil alns, 'ALNS object was not created successfully (it is nil)'
   end
 
   def test_alns_iterate_wo_operators
-    alns = ALNS.new(Random.new(123))
+    alns = ALNS::Iterator.new(Random.new(123))
 
     exception = assert_raises(ArgumentError) do
       alns.iterate nil, nil, nil, nil
@@ -26,22 +26,22 @@ class ALNSTest < Minitest::Test
   end
 
   def test_iterate
-    alns = ALNS.new
+    alns = ALNS::Iterator.new
 
     initial_solution = DummyState.new(1)
-    select = RouletteWheel.new [3, 2, 1, 0.5], 0.8, 1, 1
-    accept = HillClimbing.new
-    stop = MaxIterations.new 9
+    select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 1, 1)
+    accept = ALNS::HillClimbing.new
+    stop = ALNS::MaxIterations.new(9)
 
-    alns.add_destroy_operator do |state, rnd|
+    alns.add_destroy_operator do |state, _rnd|
       state.dup
     end
-    alns.add_repair_operator do |state, rnd|
+    alns.add_repair_operator do |_state, rnd|
       DummyState.new(rnd.rand)
     end
     alns.on_outcome do |outcome, cand|
       # puts "#{Outcome.to_s(outcome)}, #{cand.objective.round(4)}"
-      puts format('%-6s %.4f', Outcome.to_s(outcome), cand.objective)
+      puts format('%-6s %.4f', ALNS::Outcome.to_s(outcome), cand.objective)
     end
 
     result = alns.iterate initial_solution, select, accept, stop
@@ -50,7 +50,7 @@ class ALNSTest < Minitest::Test
   end
 end
 
-class DummyState < State
+class DummyState < ALNS::State
   def initialize(val)
     @objective = val
   end
