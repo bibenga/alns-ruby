@@ -29,8 +29,7 @@ module ALNS
 
     def iterate(initial_solution, select, accept, stop)
       if @destroy_operators.empty? || @repair_operators.empty?
-        raise ArgumentError,
-              'Missing destroy or repair operators.'
+        raise ArgumentError, 'Missing destroy or repair operators.'
       end
 
       curr = initial_solution

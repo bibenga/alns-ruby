@@ -13,6 +13,7 @@ def run_tsp
   COORDS.each_with_index do |_coord, i|
     nodes[i] = i
   end
+  nodes = nodes.freeze
 
   alns = ALNS::Iterator.new(Random.new(1234))
 
@@ -195,7 +196,7 @@ COORDS = [
   [84, 38],
   [84, 6],
   [107, 27]
-]
+].freeze
 
 def make_dists(coords)
   n = coords.length
@@ -205,8 +206,9 @@ def make_dists(coords)
     coords.each_with_index do |coord2, col|
       m[row][col] = euclidean(coord1[0], coord1[1], coord2[0], coord2[1])
     end
+    m[row] = m[row].freeze
   end
-  m
+  m.freeze
 end
 
 def euclidean(x1, y1, x2, y2)

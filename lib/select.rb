@@ -5,23 +5,30 @@ require_relative 'math'
 module ALNS
   class Select
     def initialize(num_destroy, num_repair, op_coupling = nil)
-      raise ArgumentError, 'Missing destroy or repair operators.' if num_destroy <= 0 || num_repair <= 0
+      if num_destroy <= 0 || num_repair <= 0
+        raise ArgumentError, 'Missing destroy or repair operators.'
+      end
 
       if op_coupling
         rows = op_coupling.length
         cols = op_coupling[0].length
 
         if rows != num_destroy || cols != num_repair
-          raise ArgumentError, "coupling matrix of shape (#{rows}, #{cols}), expected (#{num_destroy}, #{num_repair})"
+          raise ArgumentError,
+                "coupling matrix of shape (#{rows}, #{cols}), expected (#{num_destroy}, #{num_repair})"
         end
 
         op_coupling.each_with_index do |row, i|
           if row.length != cols
-            raise ArgumentError, "the number of columns in a row #{i} does not match the expected #{cols}"
+            raise ArgumentError,
+                  "the number of columns in a row #{i} does not match the expected #{cols}"
           end
 
           coupled = row.any? { |b| b }
-          raise ArgumentError, "destroy operator #{i} has no coupled repair operators" unless coupled
+          unless coupled
+            raise ArgumentError,
+                  "destroy operator #{i} has no coupled repair operators"
+          end
         end
       end
 
