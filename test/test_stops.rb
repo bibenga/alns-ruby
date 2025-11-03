@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'minitest/autorun'
 require_relative '../lib/stop'
 
 class MaxIterationsTest < Minitest::Test
