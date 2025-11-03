@@ -9,11 +9,13 @@ require_relative '../lib/stop'
 require_relative '../lib/outcome'
 
 class ALNSTest < Minitest::Test
-  def test_iterate_wo_operators
-    alns = ALNS::Iterator.new(Random.new(123))
+  def setup
+    @alns = ALNS::Iterator.new(Random.new(123))
+  end
 
+  def test_iterate_wo_operators
     exception = assert_raises(ArgumentError) do
-      alns.iterate nil, nil, nil, nil
+      @alns.iterate nil, nil, nil, nil
     end
 
     expected_message = 'Missing destroy or repair operators.'
@@ -21,31 +23,29 @@ class ALNSTest < Minitest::Test
   end
 
   def test_iterate
-    alns = ALNS::Iterator.new(Random.new(123))
-
     initial_solution = DummyState.new(1)
     select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 1, 1)
     accept = ALNS::HillClimbing.new
     stop = ALNS::MaxIterations.new(9)
 
     destroy_operator_called = 0
-    alns.add_destroy_operator do |state, _rnd|
+    @alns.add_destroy_operator do |state, _rnd|
       destroy_operator_called += 1
       state.dup
     end
 
     repair_operator_called = 0
-    alns.add_repair_operator do |_state, rnd|
+    @alns.add_repair_operator do |_state, rnd|
       repair_operator_called += 1
       DummyState.new(rnd.rand)
     end
 
     on_outcome_called = 0
-    alns.on_outcome do |_outcome, _cand|
+    @alns.on_outcome do |_outcome, _cand|
       on_outcome_called += 1
     end
 
-    result = alns.iterate initial_solution, select, accept, stop
+    result = @alns.iterate initial_solution, select, accept, stop
     refute_nil result
 
     assert_equal 9, on_outcome_called
