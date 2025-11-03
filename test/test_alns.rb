@@ -9,12 +9,7 @@ require_relative '../lib/stop'
 require_relative '../lib/outcome'
 
 class ALNSTest < Minitest::Test
-  def test_alns_dummy
-    alns = ALNS::Iterator.new(Random.new(123))
-    refute_nil alns, 'ALNS object was not created successfully (it is nil)'
-  end
-
-  def test_alns_iterate_wo_operators
+  def test_iterate_wo_operators
     alns = ALNS::Iterator.new(Random.new(123))
 
     exception = assert_raises(ArgumentError) do
@@ -33,24 +28,35 @@ class ALNSTest < Minitest::Test
     accept = ALNS::HillClimbing.new
     stop = ALNS::MaxIterations.new(9)
 
+    destroy_operator_called = 0
     alns.add_destroy_operator do |state, _rnd|
+      destroy_operator_called += 1
       state.dup
     end
+
+    repair_operator_called = 0
     alns.add_repair_operator do |_state, rnd|
+      repair_operator_called += 1
       DummyState.new(rnd.rand)
     end
-    alns.on_outcome do |outcome, cand|
-      # puts format('%-6s %.4f', ALNS::Outcome.to_s(outcome), cand.objective)
+
+    on_outcome_called = 0
+    alns.on_outcome do |_outcome, _cand|
+      on_outcome_called += 1
     end
 
     result = alns.iterate initial_solution, select, accept, stop
+    refute_nil result
 
-    # pp result
+    assert_equal 9, on_outcome_called
+    assert_equal 9, destroy_operator_called
+    assert_equal 9, repair_operator_called
   end
 end
 
 class DummyState < ALNS::State
   def initialize(val)
+    super()
     @objective = val
   end
 
