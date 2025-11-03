@@ -2,12 +2,15 @@
 
 Gem::Specification.new do |s|
   s.name          = 'alns'
-  s.version       = '0.0.1'
+  s.version       = '0.1.0'
   s.summary       = 'Adaptive Large Neighbourhood Search'
   s.description   = ''
   s.authors       = ['bibenga']
-  s.email         = 'olala@github.coms'
+  s.email         = 'bibenga@users.noreply.github.com'
   s.files         = ['lib/*.rb']
-  s.homepage      = 'https://rubygems.org/gems/alns'
+  # s.homepage      = 'https://rubygems.org/gems/example'
+  s.homepage      = 'https://github.com/bibenga/alns-ruby'
+  s.metadata      = { 'source_code_uri' => 'https://github.com/bibenga/alns-ruby' }
   s.license       = 'MIT'
+  s.required_ruby_version = '>= 3.4'
 end
