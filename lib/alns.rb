@@ -12,16 +12,16 @@ class ALNS
     @repair_operators = []
   end
 
-  def on_outcome(&op)
-    @on_outcome = op
+  def on_outcome(&block)
+    @on_outcome = block
   end
 
-  def add_destroy_operator(&op)
-    @destroy_operators << op
+  def add_destroy_operator(&block)
+    @destroy_operators << block
   end
 
-  def add_repair_operator(&op)
-    @repair_operators << op
+  def add_repair_operator(&block)
+    @repair_operators << block
   end
 
   def iterate(initial_solution, select, accept, stop)
@@ -56,6 +56,8 @@ class ALNS
 
     Result.new(best, stats)
   end
+
+  private
 
   def eval_cand(accept, best, curr, cand)
     outcome = determine_outcome(accept, best, curr, cand)

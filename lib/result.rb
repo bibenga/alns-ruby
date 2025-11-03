@@ -1,12 +1,8 @@
 class Result
+  attr_reader :best_state, :statistics
+
   def initialize(best, statistics)
-    @best = best
+    @best_state = best
     @statistics = statistics
   end
-
-  def best_state
-    @best
-  end
-
-  attr_reader :statistics
 end
