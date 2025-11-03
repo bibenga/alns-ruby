@@ -338,7 +338,7 @@ def path_removal(state, rnd)
   node = destroyed.nodes.sample(random: rnd)
 
   to_remove = edges_to_remove(destroyed)
-  (0...to_remove).each do |_|
+  to_remove.times do
     next_node = destroyed.edges[node]
     destroyed.edges.delete(node)
     node = next_node
@@ -355,7 +355,7 @@ def worst_removal(state, _rnd)
   end
 
   to_remove = edges_to_remove(destroyed)
-  (0...to_remove).each do |idx|
+  to_remove.times do |idx|
     destroyed.edges.delete(worst_edges[worst_edges.length - (idx + 1)])
   end
 
