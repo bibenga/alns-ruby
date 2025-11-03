@@ -247,11 +247,11 @@ def greedy_repair(state, rnd)
   nodes = state.nodes.shuffle(random: rnd)
 
   while state.edges.length != state.nodes.length
-    node = nodes.find(-> { -1 }) do |other|
+    node = nodes.find do |other|
       !state.edges.key?(other)
     end
     # p node
-    raise 'node not found' if node == -1
+    raise 'node not found' if node.nil?
 
     unvisited = state.nodes.select do |other|
       other != node && !visited.include?(other) && !would_form_subcycle(node, other, state)
