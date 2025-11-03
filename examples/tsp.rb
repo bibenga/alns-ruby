@@ -211,7 +211,7 @@ def make_dists(coords)
   m.freeze
 end
 
-def euclidean(x1, y1, x2, y2)
+def euclidean(x1, y1, x2, y2) # rubocop:disable Naming/MethodParameterName
   Math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 end
 
@@ -257,7 +257,7 @@ def greedy_repair(state, rnd)
       other != node && !visited.include?(other) && !would_form_subcycle(node, other, state)
     end
     # p unvisited
-    raise 'unvisited is empty' if unvisited.length == 0
+    raise 'unvisited is empty' if unvisited.empty?
 
     nearest = unvisited.min do |a, b|
       state.dists[node][a] <=> state.dists[node][b]
@@ -360,10 +360,10 @@ def write_dot_file(filename, nodes, edges)
   end
 
   width = max_x - min_x
-  raise 'zero width' if width == 0
+  raise 'zero width' if width.zero?
 
   height = max_y - min_y
-  raise 'zero height' if height == 0
+  raise 'zero height' if height.zero?
 
   # create and write dot file
   File.open(filename, 'w') do |f|
@@ -388,4 +388,4 @@ def write_dot_file(filename, nodes, edges)
   end
 end
 
-run_tsp if __FILE__ == $0
+run_tsp if __FILE__ == $PROGRAM_NAME
