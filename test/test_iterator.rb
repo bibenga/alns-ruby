@@ -7,6 +7,7 @@ require_relative '../lib/select'
 require_relative '../lib/accept'
 require_relative '../lib/stop'
 require_relative '../lib/outcome'
+require_relative 'models/state'
 
 class IteratorTest < Minitest::Test
   def setup
@@ -24,7 +25,7 @@ class IteratorTest < Minitest::Test
   end
 
   def test_iterate
-    initial_solution = DummyState.new(1)
+    initial_solution = FakeState.new(1)
     select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 1, 1)
     accept = ALNS::HillClimbing.new
     stop = ALNS::MaxIterations.new(9)
@@ -38,7 +39,7 @@ class IteratorTest < Minitest::Test
     repair_operator_called = 0
     @alns.add_repair_operator do |_state, rnd|
       repair_operator_called += 1
-      DummyState.new(rnd.rand)
+      FakeState.new(rnd.rand)
     end
 
     on_outcome_called = 0
@@ -53,13 +54,4 @@ class IteratorTest < Minitest::Test
     assert_equal 9, destroy_operator_called
     assert_equal 9, repair_operator_called
   end
-end
-
-class DummyState < ALNS::State
-  def initialize(val)
-    super()
-    @objective = val
-  end
-
-  attr_reader :objective
 end

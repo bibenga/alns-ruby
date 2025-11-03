@@ -14,8 +14,8 @@ class MathTest < Minitest::Test
   end
 
   def test_close
-    assert_equal true, ALNS.close?(1, 1.0000000001)
-    assert_equal false, ALNS.close?(1, 1.0000001)
+    assert ALNS.close?(1, 1.0000000001)
+    assert !ALNS.close?(1, 1.0000001)
   end
 
   def test_weighted_random_index

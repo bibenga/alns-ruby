@@ -23,6 +23,6 @@ class MaxRuntimeTest < Minitest::Test
       sleep(0.001)
     end
     elapsed = ((Time.new - started) * 1000).to_i
-    assert_equal true, elapsed.between?(100, 105), "#{elapsed}"
+    assert elapsed.between?(100, 105)
   end
 end
