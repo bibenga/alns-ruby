@@ -1,4 +1,5 @@
-require 'set'
+# frozen_string_literal: true
+
 require_relative '../lib/alns'
 require_relative '../lib/state'
 require_relative '../lib/accept'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 EPSILON = 1e-9
 
 def is_close(a, b, epsilon = EPSILON)

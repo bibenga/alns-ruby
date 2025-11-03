@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Stop
   def done?(rnd, best, current)
     raise NotImplementedError

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Outcome
   BEST = 0
   BETTER = 1

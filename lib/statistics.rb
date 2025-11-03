@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Statistics
   def initialize(num_destroy, num_repair)
     @runtimes = []
