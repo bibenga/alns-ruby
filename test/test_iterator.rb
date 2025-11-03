@@ -20,8 +20,7 @@ class IteratorTest < Minitest::Test
       @alns.iterate nil, nil, nil, nil
     end
 
-    expected_message = 'Missing destroy or repair operators.'
-    assert_equal expected_message, exception.message
+    assert_equal 'Missing destroy or repair operators.', exception.message
   end
 
   def test_iterate

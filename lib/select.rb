@@ -9,7 +9,7 @@ module ALNS
         raise ArgumentError, 'Missing destroy or repair operators.'
       end
 
-      if op_coupling
+      unless op_coupling.nil?
         rows = op_coupling.length
         cols = op_coupling[0].length
 
