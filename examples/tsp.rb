@@ -52,8 +52,8 @@ module TSP
 
     select = ALNS::Select::RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
     accept = ALNS::Accept::HillClimbing.new
-    # stop = ALNS::Stop::MaxIterations.new(1000)
-    stop = ALNS::Stop::MaxRuntime.new(2)
+    stop = ALNS::Stop::MaxIterations.new(2000)
+    # stop = ALNS::Stop::MaxRuntime.new(2)
 
     started = Time.new
     result = solver.iterate(init_sol, select, accept, stop)
@@ -62,7 +62,7 @@ module TSP
 
     puts format('best solution: %.4f', result.best_state.objective)
 
-    puts format('statistics: elapsed=%.1fs; iterations=%d', elapsed, iterations)
+    puts format('statistics: elapsed=%.2fs; iterations=%d', elapsed, iterations)
     puts('  destroy operators')
     destroy_operator_names.each do |idx, name|
       counts = result.statistics.destroy_operator_counts[idx]
