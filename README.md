@@ -15,34 +15,26 @@ gem install alns
 
 ## Exmaple
 ```ruby
-init_sol = NewMyProblemState.new
+solver = ALNS::Solver.new
+
+init_sol = make_initial_solution(solver.rnd)
+
+solver.on_outcome do |outcome, cand|
+  # do something
+end
+
+solver.add_destroy_operator do |state, rnd|
+  # do something
+end
+
+solver.add_repair_operator do |state, rnd|
+  # do something
+end
 
 select = ALNS::NewRouletteWheel.new([3, 2, 1, 0.5], 0.8, 2, 2)
 accept = ALNS::HillClimbing.new
 stop = ALNS::MaxIterations.new(100_000)
 
-solver := ALNS::Iterator.new
-
-solver.on_outcome do |outcome, cand|
-end
-
-solver.add_destroy_operator do |state, rnd|
-  # ...
-end
-solver.add_destroy_operator do |state, rnd|
-  # ...
-end
-
-solver.add_repair_operator do |state, rnd|
-  # ...
-end
-
-solver.add_repair_operator do |state, rnd|
-  # ...
-end
-
 result = alns.iterate(init_sol, select, accept, stop)
-best = res.best_state
-
-# do something with the best solution..
+# do something with the result...
 ```
