@@ -8,7 +8,7 @@ require 'alns/select/roulette_wheel'
 require 'alns/stop/max_iterations'
 require_relative 'models'
 
-class IteratorTest < Minitest::Test
+class SolverTest < Minitest::Test
   def setup
     @rnd = Random.new(123)
     @alns = ALNS::Solver.new(@rnd)
