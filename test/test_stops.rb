@@ -8,7 +8,7 @@ class MaxIterationsTest < Minitest::Test
     stop = ALNS::MaxIterations.new(10)
     exp = 0
     until stop.done?(nil, nil, nil)
-      #
+      # noop
       exp += 1
     end
     assert_equal 10, exp

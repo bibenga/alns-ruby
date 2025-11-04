@@ -57,6 +57,8 @@ module ALNS
         stats.collect_operators(d_idx, r_idx, outcome)
       end
 
+      stats.freeze
+
       Result.new(best, stats)
     end
 
