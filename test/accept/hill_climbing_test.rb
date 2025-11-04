@@ -3,7 +3,7 @@
 require_relative '../test_helper'
 require 'minitest/autorun'
 require 'alns/accept/hill_climbing'
-require_relative '../models/state'
+require_relative '../models'
 
 class HillClimbingTest < Minitest::Test
   def test_accept?

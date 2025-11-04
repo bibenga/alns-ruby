@@ -3,7 +3,7 @@
 require_relative '../test_helper'
 require 'minitest/autorun'
 require 'alns/select/roulette_wheel'
-require_relative '../models/state'
+require_relative '../models'
 
 class RouletteWheelTest < Minitest::Test
   def setup

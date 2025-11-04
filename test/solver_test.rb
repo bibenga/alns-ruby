@@ -8,7 +8,7 @@ require 'alns/state'
 require 'alns/select/roulette_wheel'
 require 'alns/stop/max_iterations'
 require 'alns/outcome'
-require_relative 'models/state'
+require_relative 'models'
 
 class IteratorTest < Minitest::Test
   def setup
