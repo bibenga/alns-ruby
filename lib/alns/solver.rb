@@ -5,6 +5,7 @@ require 'alns/statistics'
 require 'alns/result'
 
 module ALNS
+  # Implements the adaptive large neighbourhood search (ALNS) algorithm.
   class Solver
     attr_reader :rnd, :destroy_operators, :repair_operators
 
