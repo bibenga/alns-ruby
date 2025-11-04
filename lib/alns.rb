@@ -5,7 +5,7 @@ require_relative 'statistics'
 require_relative 'result'
 
 module ALNS
-  class Iterator
+  class Solver
     attr_reader :rnd, :destroy_operators, :repair_operators
 
     def initialize(rnd = nil)

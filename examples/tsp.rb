@@ -15,38 +15,38 @@ def run_tsp
   end
   nodes = nodes.freeze
 
-  alns = ALNS::Iterator.new(Random.new(1234))
+  solver = ALNS::Solver.new(Random.new(1234))
 
   init_sol = TspState.new(nodes, {}, dists)
-  init_sol = greedy_repair(init_sol, alns.rnd)
+  init_sol = greedy_repair(init_sol, solver.rnd)
 
   puts 'optimal solution: 564'
   puts format('initial solution: %.4f', init_sol.objective)
 
   iterations = 0
-  alns.on_outcome do |_outcome, _cand|
+  solver.on_outcome do |_outcome, _cand|
     iterations += 1
     # puts "%5d: %-6s %.4f" % [iterations, Outcome.to_s(outcome), cand.objective]
   end
 
-  alns.add_destroy_operator do |state, rnd|
+  solver.add_destroy_operator do |state, rnd|
     random_removal(state, rnd)
   end
-  alns.add_destroy_operator do |state, rnd|
+  solver.add_destroy_operator do |state, rnd|
     path_removal(state, rnd)
   end
-  alns.add_destroy_operator do |state, rnd|
+  solver.add_destroy_operator do |state, rnd|
     worst_removal(state, rnd)
   end
   destroy_operator_names = { 0 => :random_removal, 1 => :path_removal, 2 => :worst_removal }
 
-  alns.add_repair_operator do |state, rnd|
+  solver.add_repair_operator do |state, rnd|
     greedy_repair(state, rnd)
   end
   repair_operator_names = { 0 => :greedy_repair }
 
-  num_destroy = alns.destroy_operators.length
-  num_repair = alns.repair_operators.length
+  num_destroy = solver.destroy_operators.length
+  num_repair = solver.repair_operators.length
 
   select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
   accept = ALNS::HillClimbing.new
@@ -54,27 +54,26 @@ def run_tsp
   stop = ALNS::MaxRuntime.new(2)
 
   started = Time.new
-  res = alns.iterate(init_sol, select, accept, stop)
+  result = solver.iterate(init_sol, select, accept, stop)
   elapsed = Time.now - started
   # pp res
-  best = res.best_state
 
-  puts format('best solution: %.4f', best.objective)
+  puts format('best solution: %.4f', result.best_state.objective)
 
   puts format('statistics: elapsed=%.1fs; iterations=%d', elapsed, iterations)
   puts('  destroy operators')
   destroy_operator_names.each do |idx, name|
-    counts = res.statistics.destroy_operator_counts[idx]
+    counts = result.statistics.destroy_operator_counts[idx]
     puts format('    %d: %14s; %s', idx, name, operator_stats_to_s(counts))
   end
   puts('  repair operators')
   repair_operator_names.each do |idx, name|
-    counts = res.statistics.repair_operator_counts[idx]
+    counts = result.statistics.repair_operator_counts[idx]
     puts format('    %d: %14s; %s', idx, name, operator_stats_to_s(counts))
   end
 
   # neato -Tpng tmp/tsp.dot -o tmp/tsp.png
-  write_dot_file('tmp/tsp.dot', COORDS, best.edges)
+  write_dot_file('tmp/tsp.dot', COORDS, result.best_state.edges)
 end
 
 def operator_stats_to_s(counter)

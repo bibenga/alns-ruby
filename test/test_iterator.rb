@@ -12,7 +12,7 @@ require_relative 'models/state'
 class IteratorTest < Minitest::Test
   def setup
     @rnd = Random.new(123)
-    @alns = ALNS::Iterator.new(@rnd)
+    @alns = ALNS::Solver.new(@rnd)
   end
 
   def test_iterate_wo_operators
