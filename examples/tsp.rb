@@ -9,13 +9,8 @@ require 'alns/stop/max_runtime'
 
 module TSP
   def self.solve
+    nodes = make_nodes(COORDS)
     dists = make_dists(COORDS)
-
-    nodes = Array.new(COORDS.length)
-    COORDS.each_with_index do |_, i|
-      nodes[i] = i
-    end
-    nodes = nodes.freeze
 
     solver = ALNS::Solver.new(Random.new(1234))
 
@@ -220,17 +215,25 @@ module TSP
     [107, 27]
   ].freeze
 
+  def self.make_nodes(coords)
+    nodes = Array.new(coords.length)
+    coords.each_with_index do |_, i|
+      nodes[i] = i
+    end
+    nodes.freeze
+  end
+
   def self.make_dists(coords)
     n = coords.length
-    m = Array.new(n, 0)
+    dists = Array.new(n, 0)
     coords.each_with_index do |coord1, row|
-      m[row] = Array.new(n, 0)
+      dists_row = Array.new(n, 0)
       coords.each_with_index do |coord2, col|
-        m[row][col] = euclidean(coord1[0], coord1[1], coord2[0], coord2[1])
+        dists_row[col] = euclidean(coord1[0], coord1[1], coord2[0], coord2[1])
       end
-      m[row] = m[row].freeze
+      dists[row] = dists_row.freeze
     end
-    m.freeze
+    dists.freeze
   end
 
   def self.euclidean(x1, y1, x2, y2) # rubocop:disable Naming/MethodParameterName
