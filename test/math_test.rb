@@ -6,7 +6,7 @@ require 'alns/math'
 
 class MathTest < Minitest::Test
   def setup
-    @rng = Random.new(123)
+    @rnd = Random.new(123)
   end
 
   def test_close
@@ -23,7 +23,7 @@ class MathTest < Minitest::Test
     ]
 
     tests.each do |tt|
-      got = ALNS.weighted_random_index(@rng, tt[:weights])
+      got = ALNS.weighted_random_index(@rnd, tt[:weights])
       assert_equal tt[:want], got, "weights=#{tt[:weights]}: got #{got}, want #{tt[:want]}"
     end
   end
@@ -34,7 +34,7 @@ class MathTest < Minitest::Test
     counts = Array.new(weights.length, 0)
 
     total_runs.times do
-      idx = ALNS.weighted_random_index(@rng, weights)
+      idx = ALNS.weighted_random_index(@rnd, weights)
       counts[idx] += 1
     end
 
