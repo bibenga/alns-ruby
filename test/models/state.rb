@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../../lib/state'
+require 'alns/state'
 
 class FakeState < ALNS::State
   attr_reader :objective

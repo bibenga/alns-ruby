@@ -8,7 +8,7 @@ module ALNS
   end
 
   class HillClimbing < Accept
-    def accept?(_rnd, _best, current, candidate)
+    def accept?(rnd, best, current, candidate)
       candidate.objective <= current.objective
     end
   end

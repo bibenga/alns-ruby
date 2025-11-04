@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../lib/alns'
-require_relative '../lib/state'
-require_relative '../lib/accept'
-require_relative '../lib/select'
-require_relative '../lib/stop'
+require 'alns'
+require 'alns/state'
+require 'alns/accept'
+require 'alns/select'
+require 'alns/stop'
 
 def run_tsp
   dists = make_dists(COORDS)

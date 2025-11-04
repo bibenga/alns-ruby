@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'test_helper'
 require 'minitest/autorun'
-require_relative '../lib/statistics'
-require_relative '../lib/outcome'
+require 'alns/statistics'
+require 'alns/outcome'
 
 class StatisticsTest < Minitest::Test
   def test_collect

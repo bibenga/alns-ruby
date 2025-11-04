@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'test_helper'
 require 'minitest/autorun'
-require_relative '../lib/select'
+require 'alns/select'
 require_relative 'models/state'
 
 class SelectTest < Minitest::Test

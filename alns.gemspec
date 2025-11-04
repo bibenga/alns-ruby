@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.description   = ''
   s.authors       = ['bibenga']
   s.email         = 'bibenga@users.noreply.github.com'
-  s.files         = Dir['lib/*.rb']
+  s.files         = Dir['LICENSE', 'lib/*.rb']
   s.require_paths = ['lib']
   # s.homepage      = 'https://rubygems.org/gems/example'
   s.homepage      = 'https://github.com/bibenga/alns-ruby'

@@ -14,7 +14,7 @@ module ALNS
       @current_iteration = 0
     end
 
-    def done?(_rnd, _best, _current)
+    def done?(rnd, best, current)
       @current_iteration += 1
       @current_iteration > @max_iterations
     end
@@ -27,7 +27,7 @@ module ALNS
       @started = nil
     end
 
-    def done?(_rnd, _best, _current)
+    def done?(rnd, best, current)
       if @started.nil?
         @started = Time.new
         return false

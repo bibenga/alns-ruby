@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'test_helper'
 require 'minitest/autorun'
-require_relative '../lib/stop'
+require 'alns/stop'
 
 class MaxIterationsTest < Minitest::Test
   def test_done?

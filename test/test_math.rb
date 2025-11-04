@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require_relative 'test_helper'
 require 'minitest/autorun'
-require_relative '../lib/alns'
-require_relative '../lib/state'
-require_relative '../lib/select'
-require_relative '../lib/accept'
-require_relative '../lib/stop'
-require_relative '../lib/outcome'
+require 'alns/alns'
+require 'alns/state'
+require 'alns/select'
+require 'alns/accept'
+require 'alns/stop'
+require 'alns/outcome'
 
 class MathTest < Minitest::Test
   def setup
