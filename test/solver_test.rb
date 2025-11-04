@@ -2,12 +2,10 @@
 
 require_relative 'test_helper'
 require 'minitest/autorun'
-require 'alns/alns'
+require 'alns/solver'
 require 'alns/accept/hill_climbing'
-require 'alns/state'
 require 'alns/select/roulette_wheel'
 require 'alns/stop/max_iterations'
-require 'alns/outcome'
 require_relative 'models'
 
 class IteratorTest < Minitest::Test
