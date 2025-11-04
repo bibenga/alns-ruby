@@ -5,4 +5,4 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 require_relative 'tsp'
 
-run_tsp
+TSP.solve
