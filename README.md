@@ -31,9 +31,9 @@ solver.add_repair_operator do |state, rnd|
   # do something
 end
 
-select = ALNS::NewRouletteWheel.new([3, 2, 1, 0.5], 0.8, 2, 2)
-accept = ALNS::HillClimbing.new
-stop = ALNS::MaxIterations.new(100_000)
+select = ALNS::Select::NewRouletteWheel.new([3, 2, 1, 0.5], 0.8, 2, 2)
+accept = ALNS::Accept::HillClimbing.new
+stop = ALNS::Stop::MaxIterations.new(100_000)
 
 result = alns.iterate(init_sol, select, accept, stop)
 # do something with the result...
