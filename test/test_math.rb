@@ -2,12 +2,7 @@
 
 require_relative 'test_helper'
 require 'minitest/autorun'
-require 'alns/alns'
-require 'alns/state'
-require 'alns/select'
-require 'alns/accept'
-require 'alns/stop'
-require 'alns/outcome'
+require 'alns/math'
 
 class MathTest < Minitest::Test
   def setup

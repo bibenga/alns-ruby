@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'test_helper'
+require_relative '../test_helper'
 require 'minitest/autorun'
-require 'alns/accept'
-require_relative 'models/state'
+require 'alns/accept/hill_climbing'
+require_relative '../models/state'
 
 class HillClimbingTest < Minitest::Test
   def test_accept?
-    accept = ALNS::HillClimbing.new
+    accept = ALNS::Accept::HillClimbing.new
 
     best = FakeState.new(2)
     curr = FakeState.new(2.1)

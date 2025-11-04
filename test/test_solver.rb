@@ -3,10 +3,10 @@
 require_relative 'test_helper'
 require 'minitest/autorun'
 require 'alns/alns'
+require 'alns/accept/hill_climbing'
 require 'alns/state'
-require 'alns/select'
-require 'alns/accept'
-require 'alns/stop'
+require 'alns/select/roulette_wheel'
+require 'alns/stop/max_iterations'
 require 'alns/outcome'
 require_relative 'models/state'
 
@@ -26,9 +26,9 @@ class IteratorTest < Minitest::Test
 
   def test_iterate
     initial_solution = FakeState.new(1)
-    select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 1, 1)
-    accept = ALNS::HillClimbing.new
-    stop = ALNS::MaxIterations.new(9)
+    select = ALNS::Select::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 1, 1)
+    accept = ALNS::Accept::HillClimbing.new
+    stop = ALNS::Stop::MaxIterations.new(9)
 
     destroy_operator_called = 0
     @alns.add_destroy_operator do |state, _rnd|

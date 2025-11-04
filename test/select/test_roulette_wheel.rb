@@ -1,52 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'test_helper'
+require_relative '../test_helper'
 require 'minitest/autorun'
-require 'alns/select'
-require_relative 'models/state'
-
-class SelectTest < Minitest::Test
-  def test_num_validation
-    ALNS::Select.new(1, 1, nil)
-
-    exception = assert_raises(ArgumentError) do
-      ALNS::Select.new(0, 1, nil)
-    end
-    assert_equal 'Missing destroy or repair operators.', exception.message
-
-    exception = assert_raises(ArgumentError) do
-      ALNS::Select.new(1, 0, nil)
-    end
-    assert_equal 'Missing destroy or repair operators.', exception.message
-  end
-
-  def test_coupling_validation
-    ALNS::Select.new(2, 3, [[true, true, true], [true, true, true]])
-
-    exception = assert_raises(ArgumentError) do
-      ALNS::Select.new(2, 3, [[true, true], [true]])
-    end
-    assert_equal 'coupling matrix of shape (2, 2), expected (2, 3)', exception.message
-
-    exception = assert_raises(ArgumentError) do
-      ALNS::Select.new(2, 3, [[true, true], [true, true], [true, true]])
-    end
-    assert_equal 'coupling matrix of shape (3, 2), expected (2, 3)',
-                 exception.message
-
-    exception = assert_raises(ArgumentError) do
-      ALNS::Select.new(2, 3, [[true, true, true], [true]])
-    end
-    assert_equal 'the number of columns in a row 1 does not match the expected 3',
-                 exception.message
-
-    exception = assert_raises(ArgumentError) do
-      ALNS::Select.new(2, 3, [[true, true, true], [false, false, false]])
-    end
-    assert_equal 'destroy operator 1 has no coupled repair operators',
-                 exception.message
-  end
-end
+require 'alns/select/roulette_wheel'
+require_relative '../models/state'
 
 class RouletteWheelTest < Minitest::Test
   def setup
@@ -54,7 +11,7 @@ class RouletteWheelTest < Minitest::Test
   end
 
   def test_select
-    select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 3, 2, nil)
+    select = ALNS::Select::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 3, 2, nil)
 
     d_counter = [0, 0, 0]
     r_counter = [0, 0]
@@ -81,8 +38,8 @@ class RouletteWheelTest < Minitest::Test
   end
 
   def test_select_with_coupling
-    select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 2, 3,
-                                     [[true, true, false], [false, true, true]])
+    select = ALNS::Select::RouletteWheel.new([3, 2, 1, 0.5], 0.8, 2, 3,
+                                             [[true, true, false], [false, true, true]])
 
     d_counter = [0, 0]
     r_counter = [0, 0, 0]

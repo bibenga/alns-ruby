@@ -2,9 +2,10 @@
 
 require 'alns'
 require 'alns/state'
-require 'alns/accept'
-require 'alns/select'
-require 'alns/stop'
+require 'alns/accept/hill_climbing'
+require 'alns/select/roulette_wheel'
+require 'alns/stop/max_iterations'
+require 'alns/stop/max_runtime'
 
 def run_tsp
   dists = make_dists(COORDS)
@@ -48,10 +49,10 @@ def run_tsp
   num_destroy = solver.destroy_operators.length
   num_repair = solver.repair_operators.length
 
-  select = ALNS::RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
-  accept = ALNS::HillClimbing.new
-  # stop = ALNS::MaxIterations.new(1000)
-  stop = ALNS::MaxRuntime.new(2)
+  select = ALNS::Select::RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
+  accept = ALNS::Accept::HillClimbing.new
+  # stop = ALNS::Stop::MaxIterations.new(1000)
+  stop = ALNS::Stop::MaxRuntime.new(2)
 
   started = Time.new
   result = solver.iterate(init_sol, select, accept, stop)
