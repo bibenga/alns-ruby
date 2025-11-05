@@ -11,7 +11,7 @@ module ALNS
         @current_iteration = 0
       end
 
-      def done?(rnd, best, current)
+      def done?(_rnd, _best, _current)
         @current_iteration += 1
         @current_iteration > @max_iterations
       end

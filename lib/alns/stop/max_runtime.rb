@@ -11,7 +11,7 @@ module ALNS
         @started = nil
       end
 
-      def done?(rnd, best, current)
+      def done?(_rnd, _best, _current)
         if @started.nil?
           @started = Time.new
           return false

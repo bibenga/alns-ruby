@@ -16,7 +16,7 @@ module ALNS
         @r_weights = Array.new(num_repair, 1)
       end
 
-      def select(rnd, best, current)
+      def select(rnd, _best, _current)
         if @op_coupling
           d_idx = ALNS.weighted_random_index(rnd, @d_weights)
 
@@ -39,7 +39,7 @@ module ALNS
         end
       end
 
-      def update(candidate, d_idx, r_idx, outcome)
+      def update(_candidate, d_idx, r_idx, outcome)
         @d_weights[d_idx] *= @decay
         @d_weights[d_idx] += (1 - @decay) * @scores[outcome]
 
