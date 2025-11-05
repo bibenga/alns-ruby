@@ -20,15 +20,15 @@ solver = ALNS::Solver.new
 init_sol = make_initial_solution(solver.rnd)
 
 solver.on_outcome do |outcome, cand|
-  # do something
+  # do something; for example, you could log it
 end
 
 solver.add_destroy_operator do |state, rnd|
-  # do something
+  # clone the state and destroy it
 end
 
 solver.add_repair_operator do |state, rnd|
-  # do something
+  # fix destroyed state
 end
 
 select = ALNS::Select::NewRouletteWheel.new([3, 2, 1, 0.5], 0.8, 2, 2)
@@ -36,5 +36,5 @@ accept = ALNS::Accept::HillClimbing.new
 stop = ALNS::Stop::MaxIterations.new(100_000)
 
 result = alns.iterate(init_sol, select, accept, stop)
-# do something with the result...
+# do something with the result
 ```
