@@ -365,8 +365,7 @@ module TSP
     nodes = nodes.map { |x, y| [x * k, y * k] }
 
     # search min and max
-    min_x = nodes[0][0]
-    min_y = nodes[0][1]
+    (min_x, min_y) = nodes[0]
     max_x = min_x
     max_y = min_y
 
