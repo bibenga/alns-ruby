@@ -21,26 +21,17 @@ module TSP
     puts format('initial solution: %.4f', init_sol.objective)
 
     iterations = 0
-    solver.on_outcome do |_outcome, _cand|
+    solver.on_outcome do |_, _|
       iterations += 1
-      # puts "%5d: %-6s %.4f" % [iterations, Outcome.to_s(outcome), cand.objective]
     end
 
-    solver.add_destroy_operator do |state, rnd|
-      random_removal(state, rnd)
-    end
-    solver.add_destroy_operator do |state, rnd|
-      path_removal(state, rnd)
-    end
-    solver.add_destroy_operator do |state, rnd|
-      worst_removal(state, rnd)
-    end
-    destroy_operator_names = { 0 => :random_removal, 1 => :path_removal, 2 => :worst_removal }
+    solver.add_destroy_operator { |state, rnd| random_removal(state, rnd) }
+    solver.add_destroy_operator { |state, rnd| path_removal(state, rnd) }
+    solver.add_destroy_operator { |state, rnd| worst_removal(state, rnd) }
+    destroy_operator_names = %w[random_removal path_removal worst_removal]
 
-    solver.add_repair_operator do |state, rnd|
-      greedy_repair(state, rnd)
-    end
-    repair_operator_names = { 0 => :greedy_repair }
+    solver.add_repair_operator { |state, rnd| greedy_repair(state, rnd) }
+    repair_operator_names = %w[greedy_repair]
 
     num_destroy = solver.destroy_operators.length
     num_repair = solver.repair_operators.length
@@ -59,12 +50,12 @@ module TSP
 
     puts format('statistics: elapsed=%.2fs; iterations=%d', elapsed, iterations)
     puts('  destroy operators')
-    destroy_operator_names.each do |idx, name|
+    destroy_operator_names.each_with_index do |name, idx|
       counts = result.statistics.destroy_operator_counts[idx]
       puts format('    %d: %14s; %s', idx, name, operator_stats_to_s(counts))
     end
     puts('  repair operators')
-    repair_operator_names.each do |idx, name|
+    repair_operator_names.each_with_index do |name, idx|
       counts = result.statistics.repair_operator_counts[idx]
       puts format('    %d: %14s; %s', idx, name, operator_stats_to_s(counts))
     end
@@ -390,7 +381,6 @@ module TSP
     height = max_y - min_y
     raise 'zero height' if height.zero?
 
-    # create and write dot file
     File.open(filename, 'w') do |f|
       f.puts 'digraph G {'
       f.puts "  graph [size=\"#{width},#{height}!\", dpi=20.0];"
