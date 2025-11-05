@@ -40,7 +40,7 @@ module ALNS
 
       stats.collect_objective(Time.new, initial_solution.objective)
 
-      until stop.done?(@rng, best, curr)
+      until stop.done?(@rnd, best, curr)
         d_idx, r_idx = select.select(@rnd, best, curr)
 
         destroy_op = @destroy_operators[d_idx]
