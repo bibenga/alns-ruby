@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'benchmark'
 require 'alns'
 require 'alns/state'
 require 'alns/accept/hill_climbing'
@@ -41,14 +42,15 @@ module TSP
     stop = ALNS::Stop::MaxIterations.new(2000)
     # stop = ALNS::Stop::MaxRuntime.new(2)
 
-    started = Time.new
-    result = solver.iterate(init_sol, select, accept, stop)
-    elapsed = Time.now - started
+    result = nil
+    elapsed = Benchmark.measure do
+      result = solver.iterate(init_sol, select, accept, stop)
+    end
     # pp res
 
     puts format('best solution: %.4f', result.best_state.objective)
 
-    puts format('statistics: elapsed=%.2fs; iterations=%d', elapsed, iterations)
+    puts format('statistics: elapsed=%.2fs; iterations=%d', elapsed.real, iterations)
     puts('  destroy operators')
     destroy_operator_names.each_with_index do |name, idx|
       counts = result.statistics.destroy_operator_counts[idx]
