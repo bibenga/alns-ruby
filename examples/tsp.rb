@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# bundle exec ruby --jit examples/tsp.rb --dot
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+
+require 'optparse'
 require 'benchmark'
 require 'alns'
 require 'alns/state'
@@ -10,6 +14,16 @@ require 'alns/stop/max_runtime'
 
 module TSP
   def self.solve
+    write_dot = false
+
+    OptionParser.new do |parser|
+      parser.banner = 'Usage: tsp.rb [options]'
+
+      parser.on('-d', '--dot', 'write a dot file with result') do |v|
+        write_dot = true
+      end
+    end.parse!
+
     nodes = make_nodes(COORDS)
     dists = make_dists(COORDS)
 
@@ -63,7 +77,7 @@ module TSP
     end
 
     # neato -Tpng tmp/tsp.dot -o tmp/tsp.png
-    write_dot_file('tmp/tsp.dot', COORDS, result.best_state.edges)
+    write_dot_file('tmp/tsp.dot', COORDS, result.best_state.edges) if write_dot
   end
 
   def self.operator_stats_to_s(counter)
