@@ -3,8 +3,6 @@ GEM
   specs:
     ast (2.4.3)
     benchmark (0.5.0)
-    brakeman (7.1.0)
-      racc
     bundler-audit (0.9.2)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
@@ -47,7 +45,6 @@ PLATFORMS
 
 DEPENDENCIES
   benchmark
-  brakeman
   bundler-audit
   minitest (~> 5.26)
   rake (~> 13.3)
