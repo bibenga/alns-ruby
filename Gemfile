@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 group :development, :test do
+  gem 'benchmark', require: false
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false
   gem 'minitest', '~> 5.26'
