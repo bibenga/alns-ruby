@@ -274,7 +274,7 @@ module TSP
   end
 
   def self.greedy_repair(state, rnd)
-    visited = state.edges.values
+    visited = state.edges.values.to_set
 
     nodes = state.nodes.shuffle(random: rnd)
 
