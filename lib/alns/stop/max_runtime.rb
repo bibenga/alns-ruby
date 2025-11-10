@@ -13,10 +13,10 @@ module ALNS
 
       def done?(_rnd, _best, _current)
         if @started.nil?
-          @started = Time.new
+          @started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
           return false
         end
-        elapsed = Time.now - @started
+        elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - @started
         elapsed > @max_runtime
       end
     end

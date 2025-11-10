@@ -4,7 +4,6 @@
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 require 'optparse'
-require 'benchmark'
 require 'alns'
 require 'alns/state'
 require 'alns/accept/hill_climbing'
@@ -56,11 +55,9 @@ module TSP
     stop = ALNS::Stop::MaxIterations.new(2000)
     # stop = ALNS::Stop::MaxRuntime.new(2)
 
-    result = nil
-    elapsed = Benchmark.measure do
-      result = solver.iterate(init_sol, select, accept, stop)
-    end
-    # pp res
+    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    result = solver.iterate(init_sol, select, accept, stop)
+    elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
 
     puts format('best solution: %.4f', result.best_state.objective)
 
