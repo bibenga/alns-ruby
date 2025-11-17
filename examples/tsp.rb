@@ -39,12 +39,12 @@ module TSP
       iterations += 1
     end
 
-    solver.add_destroy_operator { |state, rnd| random_removal(state, rnd) }
-    solver.add_destroy_operator { |state, rnd| path_removal(state, rnd) }
-    solver.add_destroy_operator { |state, rnd| worst_removal(state, rnd) }
+    solver.add_destroy_operator(method(:random_removal))
+    solver.add_destroy_operator(method(:path_removal))
+    solver.add_destroy_operator(method(:worst_removal))
     destroy_operator_names = %w[random_removal path_removal worst_removal]
 
-    solver.add_repair_operator { |state, rnd| greedy_repair(state, rnd) }
+    solver.add_repair_operator(method(:greedy_repair))
     repair_operator_names = %w[greedy_repair]
 
     num_destroy = solver.destroy_operators.length

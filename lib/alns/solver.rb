@@ -16,16 +16,16 @@ module ALNS
       @repair_operators = []
     end
 
-    def on_outcome(&block)
-      @on_outcome = block
+    def on_outcome(callback = nil, &block)
+      @on_outcome = callback || block
     end
 
-    def add_destroy_operator(&block)
-      @destroy_operators << block
+    def add_destroy_operator(callback = nil, &block)
+      @destroy_operators << (callback || block)
     end
 
-    def add_repair_operator(&block)
-      @repair_operators << block
+    def add_repair_operator(callback = nil, &block)
+      @repair_operators << (callback || block)
     end
 
     def iterate(initial_solution, select, accept, stop)
