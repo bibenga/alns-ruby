@@ -53,7 +53,6 @@ module ALNS
 
         select.update(cand, d_idx, r_idx, outcome)
 
-        # stats.IterationCount += 1
         stats.collect_objective(Time.new, curr.objective)
         stats.collect_operators(d_idx, r_idx, outcome)
       end
