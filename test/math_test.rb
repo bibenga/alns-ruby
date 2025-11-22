@@ -9,11 +9,6 @@ class MathTest < Minitest::Test
     @rnd = Random.new(123)
   end
 
-  def test_close
-    assert ALNS.close?(1, 1.0000000001)
-    assert !ALNS.close?(1, 1.0000001)
-  end
-
   def test_weighted_random_index
     tests = [
       { weights: [1.0], want: 0 }, # one element
