@@ -21,7 +21,7 @@ module TSP
     OptionParser.new do |parser|
       parser.banner = 'Usage: tsp.rb [options]'
 
-      parser.on('-d', '--dot', 'write a dot file with result') do
+      parser.on('-d', '--dot', 'write a dot file with the result') do
         write_dot = true
       end
 
