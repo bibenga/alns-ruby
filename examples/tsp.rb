@@ -273,17 +273,21 @@ module TSP
 
     def initialize_copy(original)
       super
-      @nodes = original.nodes
+      # @nodes is frozen
       @edges = original.edges.dup
-      @dists = original.dists
+      # @dists is frozen
+      @objective = nil
     end
 
     def objective
-      total_dist = 0.0
-      @edges.each do |from, to|
-        total_dist += @dists[from][to]
+      if @objective.nil?
+        total_dist = 0.0
+        @edges.each do |from, to|
+          total_dist += @dists[from][to]
+        end
+        @objective = total_dist
       end
-      total_dist
+      @objective
     end
   end
 
