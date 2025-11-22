@@ -15,6 +15,7 @@ require 'alns/random/random'
 module TSP
   def self.solve
     write_dot = false
+    seed = 1234
     secure_random = false
 
     OptionParser.new do |parser|
@@ -24,7 +25,11 @@ module TSP
         write_dot = true
       end
 
-      parser.on('-s', '--secure-random', 'use secure random') do
+      parser.on('-sSEED', '--seed=SEED', Integer, 'specify seed') do |v|
+        seed = v
+      end
+
+      parser.on('-r', '--secure-random', 'use secure random') do
         secure_random = true
       end
     end.parse!
@@ -35,7 +40,7 @@ module TSP
     rnd = if secure_random
             ALNS::Random::Random.new
           else
-            Random.new(1234)
+            Random.new(seed)
           end
 
     solver = ALNS::Solver.new(rnd)
