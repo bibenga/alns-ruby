@@ -10,23 +10,35 @@ require 'alns/accept/hill_climbing'
 require 'alns/select/roulette_wheel'
 require 'alns/stop/max_iterations'
 require 'alns/stop/max_runtime'
+require 'alns/random/random'
 
 module TSP
   def self.solve
     write_dot = false
+    secure_random = false
 
     OptionParser.new do |parser|
       parser.banner = 'Usage: tsp.rb [options]'
 
-      parser.on('-d', '--dot', 'write a dot file with result') do |v|
+      parser.on('-d', '--dot', 'write a dot file with result') do
         write_dot = true
+      end
+
+      parser.on('-s', '--secure-random', 'use secure random') do
+        secure_random = true
       end
     end.parse!
 
     nodes = make_nodes(COORDS)
     dists = make_dists(COORDS)
 
-    solver = ALNS::Solver.new(Random.new(1234))
+    rnd = if secure_random
+            ALNS::Random::Random.new
+          else
+            Random.new(1234)
+          end
+
+    solver = ALNS::Solver.new(rnd)
 
     init_sol = TspState.new(nodes, {}, dists)
     init_sol = greedy_repair(init_sol, solver.rnd)
