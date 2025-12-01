@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# bundle exec ruby --jit examples/tsp.rb --dot
+# bundle exec ruby --jit examples/tsp.rb --dot --png
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 require 'optparse'
+require 'open3'
 require 'alns'
 require 'alns/state'
 require 'alns/accept/hill_climbing'
@@ -15,15 +16,12 @@ require 'alns/random/random'
 module TSP
   def self.solve
     write_dot = false
+    write_png = false
     seed = 1234
     secure_random = false
 
     OptionParser.new do |parser|
       parser.banner = 'Usage: tsp.rb [options]'
-
-      parser.on('-d', '--dot', 'write a dot file with the result') do
-        write_dot = true
-      end
 
       parser.on('-sSEED', '--seed=SEED', Integer, 'specify seed') do |v|
         seed = v
@@ -31,6 +29,15 @@ module TSP
 
       parser.on('-r', '--secure-random', 'use secure random') do
         secure_random = true
+      end
+
+      parser.on('-d', '--dot', 'create a dot file with the result') do
+        write_dot = true
+      end
+
+      parser.on('-g', '--png', 'create a png file with the result') do
+        write_png = true
+        write_dot = true
       end
     end.parse!
 
@@ -92,6 +99,7 @@ module TSP
 
     # neato -Tpng tmp/tsp.dot -o tmp/tsp.png
     write_dot_file('tmp/tsp.dot', COORDS, result.best_state.edges) if write_dot
+    write_png_file('tmp/tsp.dot', 'tmp/tsp.png') if write_png
   end
 
   def self.operator_stats_to_s(counter)
@@ -434,6 +442,17 @@ module TSP
 
       f.puts '}'
     end
+  end
+
+  def self.write_png_file(dotfile, pngfile)
+    stdout, stderr, status = Open3.capture3('neato', '-Tpng', dotfile, '-o', pngfile)
+    return if status.success?
+
+    puts "neato is failed with status: #{status}"
+    puts 'STDOUT:'
+    puts stdout
+    puts 'STDERR:'
+    puts stderr
   end
 end
 
