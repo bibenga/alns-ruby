@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('lib/alns/version', __dir__)
+require './lib/alns/version'
 
 ALNS::GEMSPEC = Gem::Specification.new do |s|
   s.name          = 'alns'
