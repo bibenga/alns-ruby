@@ -15,9 +15,10 @@ require 'alns/random/random'
 
 module TSP
   def self.solve
+    seed = 1234
+    max_iterations = 2000
     write_dot = false
     write_png = false
-    seed = 1234
     secure_random = false
 
     OptionParser.new do |parser|
@@ -25,6 +26,10 @@ module TSP
 
       parser.on('-sSEED', '--seed=SEED', Integer, 'specify seed') do |v|
         seed = v
+      end
+
+      parser.on('-iCOUNT', '--iteration-count=COUNT', Integer, 'iteration count') do |v|
+        max_iterations = v
       end
 
       parser.on('-r', '--secure-random', 'use secure random') do
@@ -76,7 +81,7 @@ module TSP
 
     select = ALNS::Select::RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
     accept = ALNS::Accept::HillClimbing.new
-    stop = ALNS::Stop::MaxIterations.new(2000)
+    stop = ALNS::Stop::MaxIterations.new(max_iterations)
     # stop = ALNS::Stop::MaxRuntime.new(2)
 
     start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
