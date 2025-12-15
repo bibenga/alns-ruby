@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../test_helper'
-require_relative '../models'
+require_relative '../fake_state'
 require 'minitest/autorun'
 require 'alns/stop/no_improvement'
 

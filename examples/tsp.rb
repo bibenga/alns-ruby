@@ -8,6 +8,7 @@ require 'open3'
 require 'alns'
 require 'alns/state'
 require 'alns/accept/hill_climbing'
+require 'alns/accept/great_deluge'
 require 'alns/select/roulette_wheel'
 require 'alns/stop/max_iterations'
 require 'alns/stop/max_runtime'
@@ -81,6 +82,7 @@ module TSP
 
     select = ALNS::Select::RouletteWheel.new([3, 2, 1, 0.5], 0.8, num_destroy, num_repair)
     accept = ALNS::Accept::HillClimbing.new
+    # accept = ALNS::Accept::GreatDeluge.new(1.05, 0.01)
     stop = ALNS::Stop::MaxIterations.new(max_iterations)
     # stop = ALNS::Stop::MaxRuntime.new(2)
 

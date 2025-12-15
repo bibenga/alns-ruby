@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
 require 'alns/state'
 
 class FakeState < ALNS::State
@@ -11,3 +10,8 @@ class FakeState < ALNS::State
     @objective = val
   end
 end
+
+Sentinel = FakeState.new(0)
+Zero = FakeState.new(0)
+One = FakeState.new(1)
+Two = FakeState.new(2)
