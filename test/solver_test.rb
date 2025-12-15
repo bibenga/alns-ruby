@@ -6,7 +6,7 @@ require 'alns/solver'
 require 'alns/accept/hill_climbing'
 require 'alns/select/roulette_wheel'
 require 'alns/stop/max_iterations'
-require_relative 'models'
+require_relative 'fake_state'
 
 class SolverTest < Minitest::Test
   def setup
