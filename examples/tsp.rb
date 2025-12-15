@@ -50,7 +50,7 @@ module TSP
     dists = make_dists(COORDS)
 
     rnd = if secure_random
-            ALNS::Random::Random.new
+            ALNS::Random::SecureRandom.new
           else
             Random.new(seed)
           end
