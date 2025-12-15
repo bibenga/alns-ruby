@@ -35,6 +35,6 @@ select = ALNS::Select::NewRouletteWheel.new([3, 2, 1, 0.5], 0.8, 2, 2)
 accept = ALNS::Accept::HillClimbing.new
 stop = ALNS::Stop::MaxIterations.new(100_000)
 
-result = alns.iterate(init_sol, select, accept, stop)
+result = solver.iterate(init_sol, select, accept, stop)
 # do something with the result
 ```
